@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Ladoo</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #3d0a14, #1a1a1a);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Glass Card */
+        .card {
+            width: 340px;
+            padding: 25px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            z-index: 5;
+        }
+
+        .img-box {
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid #fff;
+            margin-bottom: 15px;
+        }
+
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Countdown Style */
+        .countdown-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 15px;
+        }
+        .time-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .time-box label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.7; }
+
+        /* Music Toggle */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 0 15px var(--primary);
+            z-index: 10;
+        }
+
+        .heart { position: absolute; pointer-events: none; animation: floatUp 4s linear infinite; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles"></div>
+
+    <div class="card">
+        <div class="img-box">
+            <img src="https://ibb.co/p6fbNqr2" alt="Us">
+        </div>
+        
+        <h2 style="margin:5px 0;">Our Big Day In...</h2>
+        
+        <div class="countdown-container">
+            <div class="time-box"><span id="days">00</span><label>Days</label></div>
+            <div class="time-box"><span id="hours">00</span><label>Hrs</label></div>
+            <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+        </div>
+
+        <p style="font-size: 0.9rem; margin-top: 15px;">"Can't wait to spend forever with you, Ladoo."</p>
+    </div>
+
+    <div class="music-btn" onclick="toggleMusic()">🎵</div>
+    
+    <audio id="bg-music" loop>
+        <source src="spotify:track:3hRV0jL3vUpRrcy398teAU
+" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Set your wedding date here (Year, Month - 1, Day)
+        const weddingDate = new Date(2026, 12, 12).getTime(); // Dec 25, 2026 example
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('mins').innerText = m;
+        }
+        setInterval(updateCountdown, 1000);
+
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            return music.paused ? music.play() : music.pause();
+        }
+
+        // Animated Hearts
+        function createHeart() {
+            const h = document.createElement('div');
+            h.classList.add('heart');
+            h.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 4000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
