@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Ladoo ❤️</title>
+    <style>
+        /* Mobile-First Design */
+        body {
+            background-color: #ffe5ec;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', -apple-system, sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 12px 12px 30px 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            transform: rotate(-1deg);
+            width: 85%; /* Fits perfectly on mobile */
+            max-width: 300px;
+            text-align: center;
+            z-index: 10;
+            transition: transform 0.5s ease;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border: 1px solid #f0f0f0;
+        }
+
+        .caption {
+            margin-top: 15px;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.6rem;
+            color: #ff4b6e;
+        }
+
+        .gift-section {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 250px;
+            z-index: 11;
+            box-shadow: 0 5px 15px rgba(255, 75, 110, 0.1);
+        }
+
+        .gift-box { 
+            font-size: 50px; 
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        #joke-text { 
+            color: #555; 
+            font-size: 0.95rem; 
+            margin: 10px 0; 
+            min-height: 40px;
+            line-height: 1.4;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            animation: float 4s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="polaroid" id="mainPhoto">
+        <img src="AnuKush.jpg" alt="Anu & Vijay">
+        <div class="caption">Anu & Vijay</div>
+    </div>
+
+    <div class="gift-section">
+        <div class="gift-box" id="box" onclick="nextSurprise()">🎁</div>
+        <div id="joke-text">Tap the gift, Ladoo!</div>
+    </div>
+
+    <script>
+        const surprises = [
+            "Happy Valentine's Day, Anu! ❤️",
+            "You're the sweetest Ladoo in the world! 🍬",
+            "Are you a magician? Because when I see you, everything else disappears! ✨",
+            "I'm so lucky to have you as my fiancée. 💍"
+        ];
+        let step = 0;
+
+        function nextSurprise() {
+            const box = document.getElementById('box');
+            const text = document.getElementById('joke-text');
+            const photo = document.getElementById('mainPhoto');
+
+            if (step < surprises.length) {
+                text.innerText = surprises[step];
+                box.innerText = "🍬";
+                // Add a little wiggle to the photo
+                photo.style.transform = `rotate(${Math.random() * 6 - 3}deg) scale(1.05)`;
+                step++;
+                createHearts(6);
+            } else {
+                box.style.animation = "none";
+                box.innerText = "💖";
+                text.innerHTML = "<b>I Love You Forever!</b><br>You make me the happiest!";
+                photo.style.transform = "rotate(0deg) scale(1.1)";
+                // Infinite hearts!
+                setInterval(() => createHearts(1), 150);
+            }
+        }
+
+        function createHearts(num) {
+            for(let i=0; i<num; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = ['❤️', '💖', '✨', '🍭'][Math.floor(Math.random() * 4)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }
+    </script>
+</body>
+</html>
